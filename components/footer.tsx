@@ -1,0 +1,192 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+
+import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { SiDailydotdev } from "react-icons/si";
+import {
+  FiUser,
+  FiBook,
+  FiMail,
+  FiFolder,
+  FiCamera,
+  FiBarChart2,
+  FiStar,
+} from "react-icons/fi";
+
+const Footer = () => {
+  // LIVE CLOCK STATE
+  const [time, setTime] = useState("");
+
+  useEffect(() => {
+    const updateTime = () => {
+      setTime(new Date().toLocaleTimeString());
+    };
+
+    updateTime(); // initial load
+    const interval = setInterval(updateTime, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // MOBILE DATA
+  const navigate = [
+    { name: "About", path: "/about" },
+    { name: "Blog", path: "/blog" },
+    { name: "Projects", path: "/projects" },
+  ];
+
+  const explore = [
+    { name: "Contact", path: "/contact" },
+    { name: "Colophon", path: "/colophon" },
+    { name: "Features", path: "/features" },
+    { name: "Manifest", path: "/manifest" },
+  ];
+
+  const socials = [
+    { icon: <FaGithub />, path: "https://github.com/Birendra-Joshi" },
+    {
+      icon: <FaLinkedin />,
+      path: "https://www.linkedin.com/in/your-linkedin/",
+    },
+    { icon: <FaInstagram />, path: "https://www.instagram.com/your_instagram/" },
+  ];
+
+  // DESKTOP GRID
+  const desktopLinks = [
+    { name: "About", path: "/about", icon: <FiUser /> },
+    { name: "Dashboard", path: "/dashboard", icon: <FiBarChart2 /> },
+    { name: "Colophon", path: "/colophon", icon: <FiBook /> },
+    { name: "Manifest", path: "/manifest", icon: <FiStar /> },
+
+    { name: "Guestbook", path: "/guestbook", icon: <FiBook /> },
+    { name: "Contact", path: "/contact", icon: <FiMail /> },
+    { name: "Blogs", path: "/blog", icon: <FiBook /> },
+
+    { name: "Projects", path: "/projects", icon: <FiFolder /> },
+    { name: "Photos", path: "/photos", icon: <FiCamera /> },
+    { name: "Feedback", path: "/feedback", icon: <FiUser /> },
+    { name: "Analytics", path: "/analytics", icon: <FiBarChart2 /> },
+
+    { name: "Instagram", path: "https://www.instagram.com/your_instagram/", icon: <FaInstagram /> },
+    {
+      name: "Daily.dev",
+      path: "https://app.daily.dev/",
+      icon: <SiDailydotdev />,
+    },
+    { name: "GitHub", path: "https://github.com/Birendra-Joshi", icon: <FaGithub /> },
+    { name: "LinkedIn", path: "https://www.linkedin.com/in/your-linkedin/", icon: <FaLinkedin /> },
+  ];
+
+  return (
+    <footer className="w-full px-5 py-12 text-gray-700 dark:text-gray-400">
+      <div className="max-w-5xl mx-auto space-y-12">
+
+        {/* MOBILE */}
+        <div className="md:hidden space-y-10">
+          <div className="grid grid-cols-2 gap-8">
+
+            <div>
+              <h3 className="text-sm font-semibold mb-4 text-gray-900 dark:text-white">
+                NAVIGATE
+              </h3>
+              <ul className="space-y-3">
+                {navigate.map((item) => (
+                  <li key={item.name} className="flex gap-2">
+                    <span className="text-gray-400">•</span>
+                    <Link href={item.path}>
+                      <span className="border-b border-dashed border-gray-300 dark:border-gray-700">
+                        {item.name}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-semibold mb-4 text-gray-900 dark:text-white">
+                EXPLORE
+              </h3>
+              <ul className="space-y-3">
+                {explore.map((item) => (
+                  <li key={item.name} className="flex gap-2">
+                    <span className="text-gray-400">•</span>
+                    <Link href={item.path}>
+                      <span className="border-b border-dashed border-gray-300 dark:border-gray-700">
+                        {item.name}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+
+                <li className="flex gap-2">
+                  <span className="text-gray-400">•</span>
+                  <button
+                    onClick={() =>
+                      window.scrollTo({ top: 0, behavior: "smooth" })
+                    }
+                    className="border-b border-dashed border-gray-300 dark:border-gray-700"
+                  >
+                    Scroll to Top
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <h2 className="text-lg font-medium text-gray-900 dark:text-white">
+              Birendra Joshi
+            </h2>
+
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Aspiring Full Stack Developer from Nepal
+            </p>
+
+            <div className="flex gap-5 text-xl">
+              {socials.map((s, i) => (
+                <a key={i} href={s.path} target="_blank">
+                  {s.icon}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* DESKTOP */}
+        <div className="hidden md:block space-y-10">
+          <div className="grid grid-cols-4 gap-x-10 gap-y-6 text-sm">
+            {desktopLinks.map((item) => (
+              <Link
+                key={item.name}
+                href={item.path}
+                target={item.path.startsWith("http") ? "_blank" : "_self"}
+                className="flex items-center gap-3 hover:text-black dark:hover:text-white transition group"
+              >
+                <span className="text-lg text-gray-400 dark:text-gray-600 group-hover:text-black dark:group-hover:text-white transition-colors">
+                  {item.icon}
+                </span>
+                <span className="border-b border-dashed border-gray-300 dark:border-gray-700">
+                  {item.name}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* FOOTER BOTTOM */}
+        <div className="flex justify-between items-center text-sm text-gray-500 dark:text-gray-600 border-t border-gray-100 dark:border-gray-800 pt-4">
+          <span>© {new Date().getFullYear()} Birendra Joshi</span>
+
+          {/* LIVE TIME */}
+          <span className="font-mono">{time}</span>
+        </div>
+
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

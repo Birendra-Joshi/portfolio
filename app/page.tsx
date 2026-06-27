@@ -1,0 +1,247 @@
+"use client";
+
+import React, { useState } from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { FaArrowUpRightFromSquare } from "react-icons/fa6";
+import Link from "next/link";
+import { Playwrite_IE, Caveat_Brush, Instrument_Serif } from "next/font/google";
+import { TechMarquee } from "@/components/tech-marquee";
+
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"]
+});
+
+const bokorFont = Playwrite_IE({
+  weight: "300",
+});
+
+const caveatFont = Caveat_Brush({
+  weight: "400",
+});
+
+const school = {
+  name: "your school name",
+  logoUrl: "/school.png",
+};
+
+const Nux = {
+  name: "Birendra Joshi",
+  avatarUrl: "/profile.jpg",
+  initials: "BJ",
+};
+
+const photos = [
+  { id: "left", url: "/1.jpg" },
+  { id: "center", url: "/2.jpg" },
+  { id: "right", url: "/3.jpg" },
+];
+
+const projects = [
+  {
+    name: "portfolio website",
+    description: "I built this portfolio using Next.js 16 and Tailwind CSS. It features a dynamic photo carousel, dark mode, responsive design, and smooth animations.",
+    icon: "/project1.png",
+    url: "https://github.com/Birendra-Joshi",
+  },
+  {
+    name: "Project Two",
+    description: "Description of your second project. Replace this with your actual project details.",
+    icon: "/project2.png",
+    url: "https://github.com/Birendra-Joshi",
+  },
+  {
+    name: "Project Three",
+    description: "Description of your third project. Replace this with your actual project details.",
+    icon: "/project3.png",
+    url: "https://github.com/Birendra-Joshi",
+  },
+];
+
+
+
+function Avatar({ src, alt, fallback }: any) {
+  return (
+    <motion.div
+      className="relative w-24 h-24 sm:w-36 sm:h-36 rounded-full overflow-hidden"
+      animate={{ y: [0, -10, 0, 10, 0], x: [0, 8, 0, -8, 0] }}
+      transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+    >
+      {src ? (
+        <Image src={src} alt={alt} fill className="object-cover" />
+      ) : (
+        <div className="flex items-center justify-center w-full h-full bg-gray-300 text-white font-bold">
+          {fallback}
+        </div>
+      )}
+    </motion.div>
+  );
+}
+
+export default function Home() {
+  const [active, setActive] = useState("center");
+  const visibleProjects = projects.slice(0, 3);
+
+  return (
+    <main className="min-h-screen px-4 py-10 lg:py-16">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="lg:flex items-center gap-4">
+          <Avatar src={Nux.avatarUrl} alt={Nux.name} fallback={Nux.initials} />
+
+          <div className="flex-1 mt-6 lg:mt-0 lg:ml-6">
+            <h1
+              className={`text-2xl sm:text-4xl lg:text-3xl font-bold mb-2 text-gray-900 dark:text-white ${bokorFont.className}`}
+            >
+              Hi, I'm Birendra Joshi
+            </h1>
+
+            <p className="mb-1 text-gray-600 dark:text-gray-400">Aspiring Full Stack Developer & Student</p>
+
+            <div className="text-gray-600 dark:text-gray-400">
+              I'm passionate{" "}
+              <a
+                href="https://github.com/Birendra-Joshi"
+                className={`text-blue-600 dark:text-blue-400 underline ${caveatFont.className}`}
+              >
+                Aspiring full stack developer
+              </a>{" "}
+              from Nepal passionate about building modern web applications using React, Next.js, and TypeScript. Interested in AI web development, data science, PCB design, and graphics designing.
+            </div>
+          </div>
+        </div>
+
+        {/* Tech Stack Marquee */}
+        <div className="mt-12">
+          <TechMarquee />
+        </div>
+
+        <div className="mt-16">
+          <h2 className={`${instrumentSerif.className} text-3xl font-normal text-gray-900 dark:text-white italic tracking-tighter mb-6`}>Projects</h2>
+
+          <div className="space-y-6 sm:space-y-8">
+            {visibleProjects.map((project) => (
+              <Link key={project.name} href={project.url} target="_blank">
+                <div className="flex items-start gap-5 sm:gap-8 group cursor-pointer py-3 sm:py-4">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 relative rounded-xl overflow-hidden shadow-sm flex-shrink-0">
+                    <Image
+                      src={project.icon}
+                      alt={project.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+
+                  <div>
+                    <h3 className="text-base sm:text-lg font-medium text-gray-900 dark:text-white group-hover:underline">
+                      {project.name}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1 sm:mt-2 leading-relaxed">
+                      {project.description}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <div className="flex justify-end mt-8">
+            <Link
+              href="/projects"
+              className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white underline underline-offset-4"
+            >
+              View all →
+            </Link>
+          </div>
+        </div>
+
+        {/* Photos */}
+        <div className="mt-16">
+          <h2 className={`${instrumentSerif.className} text-3xl font-normal text-gray-900 dark:text-white italic tracking-tighter mb-6`}>Photos</h2>
+
+          <div className="flex justify-center">
+            <div className="relative w-full max-w-[500px] sm:max-w-[600px] aspect-[3/2] flex items-center justify-center">
+              {/* LEFT */}
+              <div
+                onMouseEnter={() => setActive("left")}
+                onClick={() => setActive("left")}
+                className={`absolute left-2 sm:left-0 top-8 sm:top-10 p-2 bg-white dark:bg-gray-900 rounded-xl shadow-xl dark:shadow-none border border-transparent dark:border-gray-800 cursor-pointer transition-all duration-500
+                  ${active === "left"
+                    ? "z-30 scale-105"
+                    : "z-10 grayscale brightness-75 contrast-75 opacity-60 blur-[1px]"
+                  }`}
+              >
+                <div className="relative w-[140px] h-[180px] sm:w-[220px] sm:h-[280px] rounded-lg overflow-hidden">
+                  <Image
+                    src={photos[0].url}
+                    alt=""
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="text-center mt-2 text-sm text-gray-800 dark:text-gray-200">📍 Nepal</div>
+              </div>
+
+              {/* RIGHT */}
+              <div
+                onMouseEnter={() => setActive("right")}
+                onClick={() => setActive("right")}
+                className={`absolute right-2 sm:right-0 top-8 sm:top-10 p-2 bg-white dark:bg-gray-900 rounded-xl shadow-xl dark:shadow-none border border-transparent dark:border-gray-800 cursor-pointer transition-all duration-500
+                  ${active === "right"
+                    ? "z-30 scale-105"
+                    : "z-10 grayscale brightness-75 contrast-75 opacity-60 blur-[1px]"
+                  }`}
+              >
+                <div className="relative w-[140px] h-[180px] sm:w-[220px] sm:h-[280px] rounded-lg overflow-hidden">
+                  <Image
+                    src={photos[2].url}
+                    alt=""
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="text-center mt-2 text-sm text-gray-800 dark:text-gray-200">📍 Bharatpur</div>
+              </div>
+
+              {/* CENTER */}
+              <div
+                onMouseEnter={() => setActive("center")}
+                onClick={() => setActive("center")}
+                className={`relative p-2 bg-white dark:bg-gray-900 rounded-xl shadow-2xl dark:shadow-none border border-transparent dark:border-gray-800 cursor-pointer transition-all duration-500
+                  ${active === "center"
+                    ? "z-30 scale-105"
+                    : "z-10 grayscale brightness-75 contrast-75 opacity-60 blur-[1px]"
+                  }`}
+              >
+                <div className="relative w-[160px] h-[200px] sm:w-[260px] sm:h-[320px] rounded-lg overflow-hidden">
+                  <Image
+                    src={photos[1].url}
+                    alt=""
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="text-center mt-2 text-sm text-gray-800 dark:text-gray-200">📍 Kathmandu</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-end mt-17">
+            <Link
+              href="/photos"
+              className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white underline underline-offset-4"
+            >
+              View all →
+            </Link>
+          </div>
+        </div>
+
+
+
+      </div>
+    </main>
+  );
+}
